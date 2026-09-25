@@ -1,0 +1,37 @@
+volumes:
+  dvwa:
+
+
+networks:
+  dvwa:
+
+
+services:
+  dvwa:
+    build: .
+    image: ghcr.io/digininja/dvwa:latest
+    pull_policy: always
+    environment:
+      - DB_SERVER=db
+      - DB_DATABASE=dvwa
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - dvwa
+    ports:
+      - 127.0.0.1:4280:80
+    restart: unless-stopped
+  db:
+    image: docker.io/library/mariadb:10
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=dvwa
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - dvwa:/var/lib/mysql
+    networks:
+      - dvwa
+    restart: unless-stopped
