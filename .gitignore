@@ -1,0 +1,29 @@
+# Secrets & environment variables — critical for this assignment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Security scan output
+semgrep-results.json
+trivy-report.json
+gitleaks-report.json
+dependency-check-report.*
+
+# PHP / Composer (if you add any dependencies)
+vendor/
+composer.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
