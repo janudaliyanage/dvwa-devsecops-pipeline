@@ -50,7 +50,7 @@ jobs:
 
   image-scan:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, sast, dependency-scan, secrets-scan]
     steps:
       - uses: actions/checkout@v4
       - name: Build image
