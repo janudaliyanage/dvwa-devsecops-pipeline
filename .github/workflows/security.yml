@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   build:
@@ -32,12 +33,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Trivy filesystem scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: fs
-          scanners: vuln
-          severity: CRITICAL,HIGH
-          exit-code: '0'
+        run: |
+          docker run --rm -v "$PWD":/src aquasec/trivy:latest fs \
+            --scanners vuln --severity CRITICAL,HIGH --exit-code 0 /src
 
   secrets-scan:
     runs-on: ubuntu-latest
@@ -58,8 +56,6 @@ jobs:
       - name: Build image
         run: docker build -t dvwa:ci .
       - name: Trivy image scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: dvwa:ci
-          severity: CRITICAL
-          exit-code: '1'
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            aquasec/trivy:latest image --severity CRITICAL --exit-code 1 dvwa:ci
