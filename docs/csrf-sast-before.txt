@@ -1,0 +1,11 @@
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                          
+  [36m[22m[24m  low.php[0m
+            5┆ $pass_new  = $_GET[ 'password_new' ];
+            ⋮┆----------------------------------------
+            6┆ $pass_conf = $_GET[ 'password_conf' ];
+
